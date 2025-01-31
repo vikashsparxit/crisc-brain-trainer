@@ -26,7 +26,7 @@ const Index = () => {
   const [isAnswered, setIsAnswered] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number>();
   const [apiKey, setApiKey] = useState<string | null>(localStorage.getItem('deepseek_api_key'));
-  const [isLoading, setIsLoading] = useState(false);  // Changed to false initially
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const [streak, setStreak] = useState(0);
   const [isGeneratingQuestion, setIsGeneratingQuestion] = useState(false);
@@ -53,12 +53,13 @@ const Index = () => {
         
         // Only start generating AI questions if we have an API key
         if (apiKey) {
-          await generateInitialQuestions();
-        } else {
-          toast({
-            title: "API Key Required",
-            description: "Please set your DeepSeek API key in settings to generate more questions.",
-            variant: "destructive",
+          generateInitialQuestions().catch(error => {
+            console.error('Error generating initial questions:', error);
+            toast({
+              title: "Error",
+              description: "Failed to generate questions. Please check your API key.",
+              variant: "destructive",
+            });
           });
         }
       } catch (error) {
@@ -75,14 +76,7 @@ const Index = () => {
   }, [apiKey]);
 
   const generateInitialQuestions = async () => {
-    if (!apiKey) {
-      toast({
-        title: "API Key Required",
-        description: "Please set your DeepSeek API key in settings to generate more questions.",
-        variant: "destructive",
-      });
-      return;
-    }
+    if (!apiKey) return;
 
     setIsGeneratingQuestion(true);
     try {
@@ -123,14 +117,14 @@ const Index = () => {
           messages: [{
             role: "user",
             content: prompt
-          }]
+          }],
+          temperature: 0.7,
+          max_tokens: 1000
         })
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        console.error('API Error:', errorData);
-        throw new Error(errorData.error?.message || 'Failed to generate question');
+        throw new Error(`API Error: ${response.status}`);
       }
 
       const data = await response.json();
@@ -140,7 +134,17 @@ const Index = () => {
         throw new Error('Invalid response format from API');
       }
 
-      return JSON.parse(data.choices[0].message.content);
+      try {
+        return JSON.parse(data.choices[0].message.content);
+      } catch (parseError) {
+        console.error('JSON Parse Error:', parseError);
+        toast({
+          title: "Error",
+          description: "Failed to parse question data from API response",
+          variant: "destructive",
+        });
+        return null;
+      }
     } catch (error) {
       console.error('Error generating question:', error);
       toast({
@@ -181,7 +185,7 @@ const Index = () => {
       setStreak(streak + 1);
       if ((streak + 1) % 5 === 0) {
         toast({
-          title: "Amazing streak, Mehu! 🌟",
+          title: "Amazing streak! 🌟",
           description: `You've got ${streak + 1} correct answers in a row! Keep going! ❤️`,
         });
       }
@@ -231,42 +235,46 @@ const Index = () => {
         streak={streak}
       />
       
-      <QuizCard
-        question={questions[currentQuestionIndex]}
-        onAnswer={handleAnswer}
-        isAnswered={isAnswered}
-        selectedAnswer={selectedAnswer}
-        streak={streak}
-      />
+      <div className="space-y-6">
+        <QuizCard
+          question={questions[currentQuestionIndex]}
+          onAnswer={handleAnswer}
+          isAnswered={isAnswered}
+          selectedAnswer={selectedAnswer}
+          streak={streak}
+        />
 
-      <div className="flex justify-between mt-4 mb-8">
-        <Button
-          variant="outline"
-          onClick={handlePreviousQuestion}
-          disabled={currentQuestionIndex === 0}
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Previous
-        </Button>
-        
-        {isAnswered && (
-          <Button 
-            onClick={handleNextQuestion}
-            disabled={isGeneratingQuestion}
+        <div className="flex justify-between items-center max-w-2xl mx-auto mt-4">
+          <Button
+            variant="outline"
+            onClick={handlePreviousQuestion}
+            disabled={currentQuestionIndex === 0}
+            className="w-32"
           >
-            {isGeneratingQuestion ? (
-              <>
-                Generating...
-                <div className="animate-spin ml-2 h-4 w-4 border-b-2 border-white rounded-full"></div>
-              </>
-            ) : (
-              <>
-                Next
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </>
-            )}
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Previous
           </Button>
-        )}
+          
+          {isAnswered && (
+            <Button 
+              onClick={handleNextQuestion}
+              disabled={isGeneratingQuestion}
+              className="w-32"
+            >
+              {isGeneratingQuestion ? (
+                <>
+                  Generating...
+                  <div className="animate-spin ml-2 h-4 w-4 border-b-2 border-white rounded-full"></div>
+                </>
+              ) : (
+                <>
+                  Next
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </>
+              )}
+            </Button>
+          )}
+        </div>
       </div>
 
       <div className="fixed bottom-4 right-4">
