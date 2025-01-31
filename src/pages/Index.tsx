@@ -19,14 +19,14 @@ import {
 } from "@/components/ui/sheet";
 
 const Index = () => {
-  const [questions, setQuestions] = useState<Question[]>(initialQuestions);
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [answers, setAnswers] = useState<boolean[]>([]);
   const [isAnswered, setIsAnswered] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number>();
   const [apiKey, setApiKey] = useState<string | null>(localStorage.getItem('deepseek_api_key'));
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);  // Changed to false initially
   const { toast } = useToast();
   const [streak, setStreak] = useState(0);
   const [isGeneratingQuestion, setIsGeneratingQuestion] = useState(false);
@@ -34,7 +34,6 @@ const Index = () => {
   useEffect(() => {
     const loadSavedData = async () => {
       try {
-        setIsLoading(true);
         await initDB();
         const savedProgress = await getProgress();
         
@@ -42,6 +41,7 @@ const Index = () => {
         const randomIndex = Math.floor(Math.random() * initialQuestions.length);
         const randomInitialQuestion = initialQuestions[randomIndex];
         
+        // Immediately set the first question
         setQuestions([randomInitialQuestion]);
         
         if (savedProgress) {
@@ -68,8 +68,6 @@ const Index = () => {
           description: "Failed to load saved data. Starting fresh.",
           variant: "destructive",
         });
-      } finally {
-        setIsLoading(false);
       }
     };
 
@@ -208,7 +206,7 @@ const Index = () => {
     }
   };
 
-  if (isLoading || !questions[currentQuestionIndex]) {
+  if (!questions[currentQuestionIndex]) {
     return (
       <div className="container mx-auto px-4 py-8 flex items-center justify-center min-h-[400px]">
         <div className="text-center">
