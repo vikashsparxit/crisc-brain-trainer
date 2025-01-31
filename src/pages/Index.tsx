@@ -29,6 +29,7 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
   const [streak, setStreak] = useState(0);
+  const [isGeneratingQuestion, setIsGeneratingQuestion] = useState(false);
 
   useEffect(() => {
     const loadSavedData = async () => {
@@ -50,8 +51,16 @@ const Index = () => {
           setStreak(savedProgress.streak || 0);
         }
         
-        // Start generating AI questions after the initial question
-        await generateInitialQuestions();
+        // Only start generating AI questions if we have an API key
+        if (apiKey) {
+          await generateInitialQuestions();
+        } else {
+          toast({
+            title: "API Key Required",
+            description: "Please set your DeepSeek API key in settings to generate more questions.",
+            variant: "destructive",
+          });
+        }
       } catch (error) {
         console.error('Error loading saved data:', error);
         toast({
@@ -65,25 +74,42 @@ const Index = () => {
     };
 
     loadSavedData();
-  }, []);
+  }, [apiKey]);
 
   const generateInitialQuestions = async () => {
-    setIsLoading(true);
+    if (!apiKey) {
+      toast({
+        title: "API Key Required",
+        description: "Please set your DeepSeek API key in settings to generate more questions.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsGeneratingQuestion(true);
     try {
       const newQuestions = [];
       for (let i = 0; i < 5; i++) {
         const question = await generateNewQuestion();
         if (question) newQuestions.push(question);
       }
-      setQuestions([...questions, ...newQuestions]);
+      setQuestions(prevQuestions => [...prevQuestions, ...newQuestions]);
       await saveQuestions(newQuestions);
     } catch (error) {
       console.error('Error generating initial questions:', error);
+      toast({
+        title: "Error",
+        description: "Failed to generate questions. Please check your API key.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsGeneratingQuestion(false);
     }
-    setIsLoading(false);
   };
 
   const generateNewQuestion = async () => {
+    if (!apiKey) return null;
+
     try {
       const prompt = generateQuestionPrompt(questions);
       console.log('Generating question with prompt:', prompt);
@@ -103,15 +129,25 @@ const Index = () => {
         })
       });
 
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('API Error:', errorData);
+        throw new Error(errorData.error?.message || 'Failed to generate question');
+      }
+
       const data = await response.json();
       console.log('AI Response:', data);
       
+      if (!data.choices?.[0]?.message?.content) {
+        throw new Error('Invalid response format from API');
+      }
+
       return JSON.parse(data.choices[0].message.content);
     } catch (error) {
       console.error('Error generating question:', error);
       toast({
         title: "Error",
-        description: "Failed to generate new question. Please try again.",
+        description: error instanceof Error ? error.message : "Failed to generate new question.",
         variant: "destructive",
       });
       return null;
@@ -211,9 +247,21 @@ const Index = () => {
         </Button>
         
         {isAnswered && (
-          <Button onClick={handleNextQuestion}>
-            Next
-            <ArrowRight className="ml-2 h-4 w-4" />
+          <Button 
+            onClick={handleNextQuestion}
+            disabled={isGeneratingQuestion}
+          >
+            {isGeneratingQuestion ? (
+              <>
+                Generating...
+                <div className="animate-spin ml-2 h-4 w-4 border-b-2 border-white rounded-full"></div>
+              </>
+            ) : (
+              <>
+                Next
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </>
+            )}
           </Button>
         )}
       </div>
