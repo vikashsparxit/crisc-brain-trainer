@@ -1,11 +1,12 @@
 import React from 'react';
 import { Progress as ProgressBar } from "@/components/ui/progress";
+import { Heart } from "lucide-react";
 
 interface ProgressProps {
   current: number;
   total: number;
   score: number;
-  streak?: number;  // Added streak as optional property
+  streak?: number;
 }
 
 const Progress = ({ current, total, score }: ProgressProps) => {
@@ -17,8 +18,8 @@ const Progress = ({ current, total, score }: ProgressProps) => {
         <span className="text-sm text-muted-foreground">
           Question {current + 1} of {total}
         </span>
-        <span className="text-sm font-medium">
-          Score: {score}/{current}
+        <span className="text-sm font-medium flex items-center gap-1">
+          Score: {score}/{current} <Heart className="h-4 w-4 fill-red-500 stroke-red-500" />
         </span>
       </div>
       <ProgressBar value={percentage} className="h-2" />

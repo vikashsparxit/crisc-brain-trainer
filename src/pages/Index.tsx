@@ -34,14 +34,14 @@ const Index = () => {
     const loadSavedData = async () => {
       try {
         setIsLoading(true);
-        const savedQuestions = await getQuestions();
+        await initDB();
         const savedProgress = await getProgress();
         
-        if (savedQuestions?.length > 0) {
-          setQuestions([...initialQuestions, ...savedQuestions]);
-        } else {
-          await generateInitialQuestions();
-        }
+        // Select one random question from the initial pool
+        const randomIndex = Math.floor(Math.random() * initialQuestions.length);
+        const randomInitialQuestion = initialQuestions[randomIndex];
+        
+        setQuestions([randomInitialQuestion]);
         
         if (savedProgress) {
           setCurrentQuestionIndex(savedProgress.currentQuestionIndex);
@@ -49,6 +49,9 @@ const Index = () => {
           setAnswers(savedProgress.answers);
           setStreak(savedProgress.streak || 0);
         }
+        
+        // Start generating AI questions after the initial question
+        await generateInitialQuestions();
       } catch (error) {
         console.error('Error loading saved data:', error);
         toast({
