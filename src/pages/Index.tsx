@@ -219,6 +219,11 @@ const Index = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">CRISC Mock Exam</h1>
+        <p className="text-gray-600">Test your knowledge with ISACA CRISC certification questions</p>
+      </div>
+      
       <Progress 
         current={currentQuestionIndex} 
         total={questions.length}
