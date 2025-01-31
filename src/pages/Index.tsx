@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { questions } from '../data/questions';
 import QuizCard from '../components/QuizCard';
 import Progress from '../components/Progress';
 import Summary from '../components/Summary';
+import Settings from '../components/Settings';
 import { useToast } from "@/components/ui/use-toast";
 
 const Index = () => {
@@ -11,6 +12,7 @@ const Index = () => {
   const [answers, setAnswers] = useState<boolean[]>([]);
   const [isAnswered, setIsAnswered] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number>();
+  const [apiKey, setApiKey] = useState<string | null>(localStorage.getItem('deepseek_api_key'));
   const { toast } = useToast();
 
   const handleAnswer = (answerIndex: number) => {
@@ -50,6 +52,15 @@ const Index = () => {
     setIsAnswered(false);
     setSelectedAnswer(undefined);
   };
+
+  if (!apiKey) {
+    return (
+      <div className="min-h-screen p-6">
+        <h1 className="text-3xl font-bold mb-8 text-center">CRISC Practice Quiz</h1>
+        <Settings onApiKeySet={(key) => setApiKey(key)} />
+      </div>
+    );
+  }
 
   if (currentQuestionIndex >= questions.length) {
     return <Summary score={score} totalQuestions={questions.length} onRestart={handleRestart} />;
