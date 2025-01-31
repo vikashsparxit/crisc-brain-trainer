@@ -37,9 +37,15 @@ const QuizCard = ({ question, onAnswer, isAnswered, selectedAnswer }: QuizCardPr
           ))}
         </div>
         {isAnswered && (
-          <div className="mt-6 p-4 bg-muted rounded-lg">
-            <h3 className="font-semibold mb-2">Explanation:</h3>
-            <p>{question.explanation}</p>
+          <div className="mt-6 space-y-4">
+            <div className="p-4 bg-muted rounded-lg">
+              <h3 className="font-semibold mb-2">Explanation:</h3>
+              <p>{question.explanation}</p>
+            </div>
+            <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
+              <h3 className="font-semibold mb-2">Source:</h3>
+              <p className="text-sm text-slate-600">{question.source}</p>
+            </div>
           </div>
         )}
       </CardContent>

@@ -11,7 +11,8 @@ export const questions: Question[] = [
       "To calculate the financial impact of risks"
     ],
     correctAnswer: 1,
-    explanation: "Risk identification aims to create a comprehensive list of potential risks that could affect objectives. It's not about eliminating all risks (which is impossible) or implementing controls (which comes later in the process)."
+    explanation: "Risk identification aims to create a comprehensive list of potential risks that could affect objectives. It's not about eliminating all risks (which is impossible) or implementing controls (which comes later in the process).",
+    source: "ISACA CRISC Review Manual 7th Edition, Chapter 1: IT Risk Identification"
   },
   {
     id: 2,
@@ -23,7 +24,8 @@ export const questions: Question[] = [
       "To implement security controls"
     ],
     correctAnswer: 2,
-    explanation: "IT risk governance primarily aims to align IT risk management with business objectives, ensuring that risk management strategies support overall business goals."
+    explanation: "IT risk governance primarily aims to align IT risk management with business objectives, ensuring that risk management strategies support overall business goals.",
+    source: "ISACA CRISC Review Manual 7th Edition, Chapter 2: IT Risk Governance Framework"
   },
   {
     id: 3,
@@ -35,7 +37,8 @@ export const questions: Question[] = [
       "Industry standards"
     ],
     correctAnswer: 1,
-    explanation: "Business objectives are the most important component when establishing risk appetite, as they determine what level of risk is acceptable in pursuit of organizational goals."
+    explanation: "Business objectives are the most important component when establishing risk appetite, as they determine what level of risk is acceptable in pursuit of organizational goals.",
+    source: "ISACA CRISC Review Manual 7th Edition, Chapter 3: Risk Appetite and Tolerance"
   },
   {
     id: 4,
@@ -47,7 +50,8 @@ export const questions: Question[] = [
       "Quarterly compliance reviews"
     ],
     correctAnswer: 1,
-    explanation: "Real-time monitoring dashboards with Key Risk Indicators (KRIs) provide the most effective way to monitor IT risks as they allow for immediate detection of risk threshold breaches and enable prompt response to emerging threats."
+    explanation: "Real-time monitoring dashboards with Key Risk Indicators (KRIs) provide the most effective way to monitor IT risks as they allow for immediate detection of risk threshold breaches and enable prompt response to emerging threats.",
+    source: "ISACA CRISC Review Manual 7th Edition, Chapter 4: Risk Monitoring and Reporting"
   },
   {
     id: 5,
@@ -59,7 +63,8 @@ export const questions: Question[] = [
       "Insurance valuation"
     ],
     correctAnswer: 2,
-    explanation: "Business impact analysis is the best approach for determining information asset value as it considers both tangible and intangible impacts on business operations, including potential revenue loss, regulatory implications, and reputational damage."
+    explanation: "Business impact analysis is the best approach for determining information asset value as it considers both tangible and intangible impacts on business operations, including potential revenue loss, regulatory implications, and reputational damage.",
+    source: "ISACA CRISC Review Manual 7th Edition, Chapter 5: Risk Assessment"
   },
   {
     id: 6,
@@ -71,7 +76,8 @@ export const questions: Question[] = [
       "To improve employee productivity"
     ],
     correctAnswer: 1,
-    explanation: "Regular IT risk assessments help organizations identify and mitigate potential risks proactively, ensuring that they can address vulnerabilities before they lead to significant issues."
+    explanation: "Regular IT risk assessments help organizations identify and mitigate potential risks proactively, ensuring that they can address vulnerabilities before they lead to significant issues.",
+    source: "ISACA CRISC Review Manual 7th Edition, Chapter 6: Risk Assessment Process"
   },
   {
     id: 7,
@@ -83,7 +89,8 @@ export const questions: Question[] = [
       "All of the above"
     ],
     correctAnswer: 3,
-    explanation: "A comprehensive risk management framework includes risk avoidance, acceptance, and transfer strategies to effectively manage and mitigate risks."
+    explanation: "A comprehensive risk management framework includes risk avoidance, acceptance, and transfer strategies to effectively manage and mitigate risks.",
+    source: "ISACA CRISC Review Manual 7th Edition, Chapter 7: Risk Management Framework"
   },
   {
     id: 8,
@@ -95,7 +102,8 @@ export const questions: Question[] = [
       "To ensure compliance with legal requirements"
     ],
     correctAnswer: 1,
-    explanation: "Key Risk Indicators (KRIs) are metrics used to measure the effectiveness of risk controls and help organizations monitor their risk exposure."
+    explanation: "Key Risk Indicators (KRIs) are metrics used to measure the effectiveness of risk controls and help organizations monitor their risk exposure.",
+    source: "ISACA CRISC Review Manual 7th Edition, Chapter 8: Risk Indicators"
   },
   {
     id: 9,
@@ -107,7 +115,8 @@ export const questions: Question[] = [
       "Random sampling"
     ],
     correctAnswer: 3,
-    explanation: "Random sampling is not a common method for risk assessment; instead, qualitative and quantitative analyses are typically used to evaluate risks."
+    explanation: "Random sampling is not a common method for risk assessment; instead, qualitative and quantitative analyses are typically used to evaluate risks.",
+    source: "ISACA CRISC Review Manual 7th Edition, Chapter 9: Risk Assessment Techniques"
   },
   {
     id: 10,
@@ -119,7 +128,8 @@ export const questions: Question[] = [
       "To provide training to employees"
     ],
     correctAnswer: 2,
-    explanation: "A risk treatment plan outlines strategies for managing identified risks, including risk avoidance, mitigation, transfer, and acceptance."
+    explanation: "A risk treatment plan outlines strategies for managing identified risks, including risk avoidance, mitigation, transfer, and acceptance.",
+    source: "ISACA CRISC Review Manual 7th Edition, Chapter 10: Risk Treatment"
   },
   {
     id: 11,
@@ -131,7 +141,8 @@ export const questions: Question[] = [
       "All of the above"
     ],
     correctAnswer: 3,
-    explanation: "The rapidly changing technology landscape presents a common challenge in IT risk management, as organizations must continuously adapt their strategies to address new risks."
+    explanation: "The rapidly changing technology landscape presents a common challenge in IT risk management, as organizations must continuously adapt their strategies to address new risks.",
+    source: "ISACA CRISC Review Manual 7th Edition, Chapter 11: Challenges in Risk Management"
   },
   {
     id: 12,
@@ -143,7 +154,8 @@ export const questions: Question[] = [
       "To provide training to employees"
     ],
     correctAnswer: 0,
-    explanation: "A risk appetite statement defines the maximum level of risk an organization is willing to accept in pursuit of its objectives."
+    explanation: "A risk appetite statement defines the maximum level of risk an organization is willing to accept in pursuit of its objectives.",
+    source: "ISACA CRISC Review Manual 7th Edition, Chapter 12: Risk Appetite"
   },
   {
     id: 13,
@@ -155,7 +167,8 @@ export const questions: Question[] = [
       "Reduced stakeholder engagement"
     ],
     correctAnswer: 1,
-    explanation: "Using a risk management software tool can improve data accuracy and reporting, making it easier for organizations to manage and analyze risks."
+    explanation: "Using a risk management software tool can improve data accuracy and reporting, making it easier for organizations to manage and analyze risks.",
+    source: "ISACA CRISC Review Manual 7th Edition, Chapter 13: Technology in Risk Management"
   },
   {
     id: 14,
@@ -167,7 +180,8 @@ export const questions: Question[] = [
       "To provide training to employees"
     ],
     correctAnswer: 1,
-    explanation: "The primary goal of incident response planning is to minimize the impact of incidents when they occur, ensuring a swift and effective response."
+    explanation: "The primary goal of incident response planning is to minimize the impact of incidents when they occur, ensuring a swift and effective response.",
+    source: "ISACA CRISC Review Manual 7th Edition, Chapter 14: Incident Response"
   },
   {
     id: 15,
@@ -179,7 +193,8 @@ export const questions: Question[] = [
       "Ambiguity"
     ],
     correctAnswer: 0,
-    explanation: "Transparency is a key principle of effective risk communication, as it helps build trust and ensures that stakeholders are informed about risks."
+    explanation: "Transparency is a key principle of effective risk communication, as it helps build trust and ensures that stakeholders are informed about risks.",
+    source: "ISACA CRISC Review Manual 7th Edition, Chapter 15: Risk Communication"
   },
   {
     id: 16,
@@ -191,7 +206,8 @@ export const questions: Question[] = [
       "To provide training to employees"
     ],
     correctAnswer: 1,
-    explanation: "A business continuity plan outlines procedures for maintaining operations during a disruption, ensuring that critical functions can continue."
+    explanation: "A business continuity plan outlines procedures for maintaining operations during a disruption, ensuring that critical functions can continue.",
+    source: "ISACA CRISC Review Manual 7th Edition, Chapter 16: Business Continuity"
   },
   {
     id: 17,
@@ -203,7 +219,8 @@ export const questions: Question[] = [
       "All of the above"
     ],
     correctAnswer: 3,
-    explanation: "Risk mitigation can involve avoidance, transfer, acceptance, or a combination of these strategies to effectively manage risks."
+    explanation: "Risk mitigation can involve avoidance, transfer, acceptance, or a combination of these strategies to effectively manage risks.",
+    source: "ISACA CRISC Review Manual 7th Edition, Chapter 17: Risk Mitigation"
   },
   {
     id: 18,
@@ -215,7 +232,8 @@ export const questions: Question[] = [
       "To provide training to employees"
     ],
     correctAnswer: 1,
-    explanation: "The role of a risk manager is to identify, assess, and manage risks to ensure that the organization can achieve its objectives."
+    explanation: "The role of a risk manager is to identify, assess, and manage risks to ensure that the organization can achieve its objectives.",
+    source: "ISACA CRISC Review Manual 7th Edition, Chapter 18: Role of the Risk Manager"
   },
   {
     id: 19,
@@ -227,7 +245,8 @@ export const questions: Question[] = [
       "All of the above"
     ],
     correctAnswer: 3,
-    explanation: "A comprehensive risk management strategy includes risk identification, assessment, and treatment to effectively manage risks."
+    explanation: "A comprehensive risk management strategy includes risk identification, assessment, and treatment to effectively manage risks.",
+    source: "ISACA CRISC Review Manual 7th Edition, Chapter 19: Risk Management Strategy"
   },
   {
     id: 20,
@@ -239,6 +258,7 @@ export const questions: Question[] = [
       "To eliminate all risks"
     ],
     correctAnswer: 0,
-    explanation: "A risk assessment report documents all identified risks and their potential impacts, providing a basis for risk management decisions."
+    explanation: "A risk assessment report documents all identified risks and their potential impacts, providing a basis for risk management decisions.",
+    source: "ISACA CRISC Review Manual 7th Edition, Chapter 20: Risk Assessment Reporting"
   }
 ];

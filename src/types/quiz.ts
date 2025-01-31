@@ -4,13 +4,7 @@ export interface Question {
   options: string[];
   correctAnswer: number;
   explanation: string;
+  source: string;  // Added this field
   domain?: string;
   difficulty?: string;
-}
-
-export interface QuizState {
-  currentQuestionIndex: number;
-  score: number;
-  totalQuestions: number;
-  answers: boolean[];
 }
