@@ -2,15 +2,19 @@ import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Question } from '../types/quiz';
+import MotivationalMessage from './MotivationalMessage';
 
 interface QuizCardProps {
   question: Question;
   onAnswer: (answerIndex: number) => void;
   isAnswered: boolean;
   selectedAnswer?: number;
+  streak: number;
 }
 
-const QuizCard = ({ question, onAnswer, isAnswered, selectedAnswer }: QuizCardProps) => {
+const QuizCard = ({ question, onAnswer, isAnswered, selectedAnswer, streak }: QuizCardProps) => {
+  const isCorrect = isAnswered && selectedAnswer === question.correctAnswer;
+
   return (
     <Card className="w-full max-w-2xl mx-auto">
       <CardContent className="p-6">
@@ -38,6 +42,11 @@ const QuizCard = ({ question, onAnswer, isAnswered, selectedAnswer }: QuizCardPr
         </div>
         {isAnswered && (
           <div className="mt-6 space-y-4">
+            <MotivationalMessage 
+              isCorrect={isCorrect}
+              streak={streak}
+              className="mb-4"
+            />
             <div className="p-4 bg-muted rounded-lg">
               <h3 className="font-semibold mb-2">Explanation:</h3>
               <p>{question.explanation}</p>
