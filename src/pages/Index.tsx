@@ -4,6 +4,8 @@ import QuizCard from '../components/QuizCard';
 import Progress from '../components/Progress';
 import Settings from '../components/Settings';
 import { useToast } from "@/components/ui/use-toast";
+import { generateQuestionPrompt } from '../utils/questionGenerator';
+import { initDB, saveQuestions, getQuestions, saveProgress, getProgress } from '../utils/indexedDB';
 
 const Index = () => {
   const [questions, setQuestions] = useState(initialQuestions);
@@ -16,9 +18,51 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
+  useEffect(() => {
+    const loadSavedData = async () => {
+      try {
+        const savedQuestions = await getQuestions();
+        const savedProgress = await getProgress();
+        
+        if (savedQuestions?.length > 0) {
+          setQuestions([...initialQuestions, ...savedQuestions]);
+        }
+        
+        if (savedProgress) {
+          setCurrentQuestionIndex(savedProgress.currentQuestionIndex);
+          setScore(savedProgress.score);
+          setAnswers(savedProgress.answers);
+        }
+      } catch (error) {
+        console.error('Error loading saved data:', error);
+      }
+    };
+
+    loadSavedData();
+  }, []);
+
+  useEffect(() => {
+    const saveCurrentProgress = async () => {
+      try {
+        await saveProgress({
+          currentQuestionIndex,
+          score,
+          answers
+        });
+      } catch (error) {
+        console.error('Error saving progress:', error);
+      }
+    };
+
+    saveCurrentProgress();
+  }, [currentQuestionIndex, score, answers]);
+
   const generateNewQuestion = async () => {
     setIsLoading(true);
     try {
+      const prompt = generateQuestionPrompt(questions);
+      console.log('Generating question with prompt:', prompt);
+
       const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
         method: 'POST',
         headers: {
@@ -29,7 +73,7 @@ const Index = () => {
           model: "deepseek-chat",
           messages: [{
             role: "user",
-            content: "Generate a CRISC (Certified in Risk and Information Systems Control) practice question in this exact JSON format: { id: number, text: string, options: string[] with exactly 4 options, correctAnswer: number (0-3), explanation: string }. Make it challenging and ensure the explanation is detailed."
+            content: prompt
           }]
         })
       });
@@ -37,9 +81,11 @@ const Index = () => {
       const data = await response.json();
       console.log('AI Response:', data);
       
-      // Parse the response and extract the question
       const newQuestion = JSON.parse(data.choices[0].message.content);
-      setQuestions(prevQuestions => [...prevQuestions, newQuestion]);
+      const updatedQuestions = [...questions, newQuestion];
+      setQuestions(updatedQuestions);
+      await saveQuestions([newQuestion]);
+      
       setIsLoading(false);
     } catch (error) {
       console.error('Error generating question:', error);

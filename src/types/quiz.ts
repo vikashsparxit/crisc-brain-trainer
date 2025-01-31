@@ -4,6 +4,8 @@ export interface Question {
   options: string[];
   correctAnswer: number;
   explanation: string;
+  domain?: string;
+  difficulty?: string;
 }
 
 export interface QuizState {
