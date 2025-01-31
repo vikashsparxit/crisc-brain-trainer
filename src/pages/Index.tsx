@@ -8,7 +8,15 @@ import { generateQuestionPrompt } from '../utils/questionGenerator';
 import { initDB, saveQuestions, getQuestions, saveProgress, getProgress } from '../utils/indexedDB';
 import { Question } from '../types/quiz';
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, Bot } from "lucide-react";  // Removed Confetti import
+import { ArrowLeft, ArrowRight, Bot } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 const Index = () => {
   const [questions, setQuestions] = useState<Question[]>(initialQuestions);
@@ -162,7 +170,15 @@ const Index = () => {
         streak={streak}
       />
       
-      <div className="flex justify-between mb-4">
+      <QuizCard
+        question={questions[currentQuestionIndex]}
+        onAnswer={handleAnswer}
+        isAnswered={isAnswered}
+        selectedAnswer={selectedAnswer}
+        streak={streak}
+      />
+
+      <div className="flex justify-between mt-4 mb-8">
         <Button
           variant="outline"
           onClick={handlePreviousQuestion}
@@ -180,15 +196,26 @@ const Index = () => {
         )}
       </div>
 
-      <QuizCard
-        question={questions[currentQuestionIndex]}
-        onAnswer={handleAnswer}
-        isAnswered={isAnswered}
-        selectedAnswer={selectedAnswer}
-        streak={streak}
-      />
-
-      <Settings onApiKeySet={setApiKey} />
+      <div className="fixed bottom-4 right-4">
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="outline" size="icon">
+              <Bot className="h-4 w-4" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent>
+            <SheetHeader>
+              <SheetTitle>Settings</SheetTitle>
+              <SheetDescription>
+                Configure your DeepSeek API key for question generation.
+              </SheetDescription>
+            </SheetHeader>
+            <div className="mt-4">
+              <Settings onApiKeySet={setApiKey} />
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
     </div>
   );
 };

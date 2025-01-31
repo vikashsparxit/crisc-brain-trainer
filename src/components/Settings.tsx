@@ -32,27 +32,24 @@ const Settings = ({ onApiKeySet }: SettingsProps) => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-xl font-bold mb-4">Settings</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="apiKey" className="block text-sm font-medium text-gray-700 mb-1">
-            DeepSeek API Key
-          </label>
-          <Input
-            id="apiKey"
-            type="password"
-            value={apiKey}
-            onChange={(e) => setApiKey(e.target.value)}
-            placeholder="Enter your DeepSeek API key"
-            className="w-full"
-          />
-        </div>
-        <Button type="submit" className="w-full">
-          Save API Key
-        </Button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div>
+        <label htmlFor="apiKey" className="block text-sm font-medium text-gray-700 mb-1">
+          DeepSeek API Key
+        </label>
+        <Input
+          id="apiKey"
+          type="password"
+          value={apiKey}
+          onChange={(e) => setApiKey(e.target.value)}
+          placeholder="Enter your DeepSeek API key"
+          className="w-full"
+        />
+      </div>
+      <Button type="submit" className="w-full">
+        Save API Key
+      </Button>
+    </form>
   );
 };
 
