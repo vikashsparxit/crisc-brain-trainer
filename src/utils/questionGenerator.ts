@@ -1,3 +1,5 @@
+import { Question } from '../types/quiz';
+
 const CRISC_DOMAINS = [
   {
     name: "Domain 1",
