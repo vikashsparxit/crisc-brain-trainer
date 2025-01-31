@@ -18,6 +18,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
+const BATCH_SIZE = 7; // Number of questions to generate at once
+
 const Index = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -26,13 +28,12 @@ const Index = () => {
   const [isAnswered, setIsAnswered] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number>();
   const [apiKey, setApiKey] = useState<string | null>(localStorage.getItem('deepseek_api_key'));
-  const [isLoading, setIsLoading] = useState(false);
+  const [isGeneratingQuestion, setIsGeneratingQuestion] = useState(false);
   const { toast } = useToast();
   const [streak, setStreak] = useState(0);
-  const [isGeneratingQuestion, setIsGeneratingQuestion] = useState(false);
 
   useEffect(() => {
-    const loadSavedData = async () => {
+    const loadInitialQuestion = async () => {
       try {
         await initDB();
         const savedProgress = await getProgress();
@@ -50,48 +51,41 @@ const Index = () => {
           setAnswers(savedProgress.answers);
           setStreak(savedProgress.streak || 0);
         }
-        
-        // Only start generating AI questions if we have an API key
-        if (apiKey) {
-          generateInitialQuestions().catch(error => {
-            console.error('Error generating initial questions:', error);
-            toast({
-              title: "Error",
-              description: "Failed to generate questions. Please check your API key.",
-              variant: "destructive",
-            });
-          });
-        }
       } catch (error) {
-        console.error('Error loading saved data:', error);
+        console.error('Error loading initial question:', error);
         toast({
           title: "Error",
-          description: "Failed to load saved data. Starting fresh.",
+          description: "Failed to load initial question. Please refresh the page.",
           variant: "destructive",
         });
       }
     };
 
-    loadSavedData();
-  }, [apiKey]);
+    loadInitialQuestion();
+  }, []);
 
-  const generateInitialQuestions = async () => {
+  const generateBatchQuestions = async () => {
     if (!apiKey) return;
 
     setIsGeneratingQuestion(true);
     try {
       const newQuestions = [];
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < BATCH_SIZE; i++) {
         const question = await generateNewQuestion();
         if (question) newQuestions.push(question);
       }
-      setQuestions(prevQuestions => [...prevQuestions, ...newQuestions]);
-      await saveQuestions(newQuestions);
+      
+      if (newQuestions.length > 0) {
+        setQuestions(prevQuestions => [...prevQuestions, ...newQuestions]);
+        await saveQuestions(newQuestions);
+      } else {
+        throw new Error('Failed to generate new questions');
+      }
     } catch (error) {
-      console.error('Error generating initial questions:', error);
+      console.error('Error generating batch questions:', error);
       toast({
         title: "Error",
-        description: "Failed to generate questions. Please check your API key.",
+        description: "Failed to generate new questions. Please check your API key.",
         variant: "destructive",
       });
     } finally {
@@ -119,7 +113,7 @@ const Index = () => {
             content: prompt
           }],
           temperature: 0.7,
-          max_tokens: 1500,  // Increased to ensure we get complete responses including source
+          max_tokens: 1500,
           top_p: 0.95,
           frequency_penalty: 0.5,
           presence_penalty: 0.5
@@ -133,14 +127,9 @@ const Index = () => {
       const data = await response.json();
       console.log('AI Response:', data);
       
-      if (!data.choices?.[0]?.message?.content) {
-        throw new Error('Invalid response format from API');
-      }
-
       try {
         const parsedQuestion = JSON.parse(data.choices[0].message.content);
         
-        // Validate that source is present
         if (!parsedQuestion.source) {
           throw new Error('Question response missing source information');
         }
@@ -148,20 +137,10 @@ const Index = () => {
         return parsedQuestion;
       } catch (parseError) {
         console.error('JSON Parse Error:', parseError);
-        toast({
-          title: "Error",
-          description: "Failed to parse question data from API response. Please try again.",
-          variant: "destructive",
-        });
         return null;
       }
     } catch (error) {
       console.error('Error generating question:', error);
-      toast({
-        title: "Error",
-        description: error instanceof Error ? error.message : "Failed to generate new question.",
-        variant: "destructive",
-      });
       return null;
     }
   };
@@ -206,10 +185,18 @@ const Index = () => {
     setAnswers([...answers, isCorrect]);
   };
 
-  const handleNextQuestion = () => {
+  const handleNextQuestion = async () => {
+    const nextIndex = currentQuestionIndex + 1;
+    
+    // If we're moving to the second question or we're running low on questions ahead,
+    // generate a new batch
+    if (nextIndex === 1 || (nextIndex >= questions.length - 2 && !isGeneratingQuestion)) {
+      await generateBatchQuestions();
+    }
+    
     setIsAnswered(false);
     setSelectedAnswer(undefined);
-    setCurrentQuestionIndex(currentQuestionIndex + 1);
+    setCurrentQuestionIndex(nextIndex);
   };
 
   const handlePreviousQuestion = () => {
