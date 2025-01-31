@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
@@ -10,6 +10,15 @@ interface SettingsProps {
 const Settings = ({ onApiKeySet }: SettingsProps) => {
   const [apiKey, setApiKey] = useState('');
   const { toast } = useToast();
+
+  useEffect(() => {
+    // Load saved API key on component mount
+    const savedKey = localStorage.getItem('deepseek_api_key');
+    if (savedKey) {
+      setApiKey(savedKey);
+      onApiKeySet(savedKey);
+    }
+  }, [onApiKeySet]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,7 +35,7 @@ const Settings = ({ onApiKeySet }: SettingsProps) => {
     onApiKeySet(apiKey);
     toast({
       title: "Success",
-      description: "API key has been saved for this session",
+      description: "API key has been saved successfully",
       className: "bg-green-500 text-white",
     });
   };
