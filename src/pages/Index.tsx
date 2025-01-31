@@ -1,19 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import { questions } from '../data/questions';
+import { questions as initialQuestions } from '../data/questions';
 import QuizCard from '../components/QuizCard';
 import Progress from '../components/Progress';
-import Summary from '../components/Summary';
 import Settings from '../components/Settings';
 import { useToast } from "@/components/ui/use-toast";
 
 const Index = () => {
+  const [questions, setQuestions] = useState(initialQuestions);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [answers, setAnswers] = useState<boolean[]>([]);
   const [isAnswered, setIsAnswered] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number>();
   const [apiKey, setApiKey] = useState<string | null>(localStorage.getItem('deepseek_api_key'));
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+
+  const generateNewQuestion = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: "deepseek-chat",
+          messages: [{
+            role: "user",
+            content: "Generate a CRISC (Certified in Risk and Information Systems Control) practice question in this exact JSON format: { id: number, text: string, options: string[] with exactly 4 options, correctAnswer: number (0-3), explanation: string }. Make it challenging and ensure the explanation is detailed."
+          }]
+        })
+      });
+
+      const data = await response.json();
+      console.log('AI Response:', data);
+      
+      // Parse the response and extract the question
+      const newQuestion = JSON.parse(data.choices[0].message.content);
+      setQuestions(prevQuestions => [...prevQuestions, newQuestion]);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error generating question:', error);
+      toast({
+        title: "Error",
+        description: "Failed to generate new question. Please try again.",
+        variant: "destructive",
+      });
+      setIsLoading(false);
+    }
+  };
 
   const handleAnswer = (answerIndex: number) => {
     const isCorrect = answerIndex === questions[currentQuestionIndex].correctAnswer;
@@ -36,21 +73,16 @@ const Index = () => {
       });
     }
 
-    setTimeout(() => {
-      if (currentQuestionIndex < questions.length - 1) {
-        setCurrentQuestionIndex(currentQuestionIndex + 1);
-        setIsAnswered(false);
-        setSelectedAnswer(undefined);
-      }
-    }, 2000);
-  };
+    // Generate new question if we're near the end
+    if (currentQuestionIndex >= questions.length - 2) {
+      generateNewQuestion();
+    }
 
-  const handleRestart = () => {
-    setCurrentQuestionIndex(0);
-    setScore(0);
-    setAnswers([]);
-    setIsAnswered(false);
-    setSelectedAnswer(undefined);
+    setTimeout(() => {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setIsAnswered(false);
+      setSelectedAnswer(undefined);
+    }, 2000);
   };
 
   if (!apiKey) {
@@ -62,24 +94,26 @@ const Index = () => {
     );
   }
 
-  if (currentQuestionIndex >= questions.length) {
-    return <Summary score={score} totalQuestions={questions.length} onRestart={handleRestart} />;
-  }
-
   return (
     <div className="min-h-screen p-6 flex flex-col items-center">
       <h1 className="text-3xl font-bold mb-8">CRISC Practice Quiz</h1>
       <Progress
         current={currentQuestionIndex}
-        total={questions.length}
+        total={answers.length + 1}
         score={score}
       />
-      <QuizCard
-        question={questions[currentQuestionIndex]}
-        onAnswer={handleAnswer}
-        isAnswered={isAnswered}
-        selectedAnswer={selectedAnswer}
-      />
+      {isLoading ? (
+        <div className="text-center p-6">
+          <p>Generating next question...</p>
+        </div>
+      ) : (
+        <QuizCard
+          question={questions[currentQuestionIndex]}
+          onAnswer={handleAnswer}
+          isAnswered={isAnswered}
+          selectedAnswer={selectedAnswer}
+        />
+      )}
     </div>
   );
 };
