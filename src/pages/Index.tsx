@@ -26,20 +26,21 @@ const Index = () => {
   const [isAnswered, setIsAnswered] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number>();
   const [apiKey, setApiKey] = useState<string | null>(localStorage.getItem('deepseek_api_key'));
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
   const [streak, setStreak] = useState(0);
 
   useEffect(() => {
     const loadSavedData = async () => {
       try {
+        setIsLoading(true);
         const savedQuestions = await getQuestions();
         const savedProgress = await getProgress();
         
         if (savedQuestions?.length > 0) {
           setQuestions([...initialQuestions, ...savedQuestions]);
         } else {
-          generateInitialQuestions();
+          await generateInitialQuestions();
         }
         
         if (savedProgress) {
@@ -50,6 +51,13 @@ const Index = () => {
         }
       } catch (error) {
         console.error('Error loading saved data:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load saved data. Starting fresh.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -160,6 +168,17 @@ const Index = () => {
       setSelectedAnswer(undefined);
     }
   };
+
+  if (isLoading || !questions[currentQuestionIndex]) {
+    return (
+      <div className="container mx-auto px-4 py-8 flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading questions...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
