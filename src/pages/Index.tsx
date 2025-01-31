@@ -6,9 +6,10 @@ import Settings from '../components/Settings';
 import { useToast } from "@/components/ui/use-toast";
 import { generateQuestionPrompt } from '../utils/questionGenerator';
 import { initDB, saveQuestions, getQuestions, saveProgress, getProgress } from '../utils/indexedDB';
+import { Question } from '../types/quiz';
 
 const Index = () => {
-  const [questions, setQuestions] = useState(initialQuestions);
+  const [questions, setQuestions] = useState<Question[]>(initialQuestions);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [answers, setAnswers] = useState<boolean[]>([]);

@@ -35,20 +35,22 @@ const EXAMPLE_QUESTION = {
   explanation: "A hybrid approach combining quantitative and qualitative methods is most appropriate for cloud service implementation risk assessment. This allows for both measurable metrics (costs, downtime estimates) and expert judgment on less tangible factors (reputation impact, compliance implications). This comprehensive approach provides a more complete risk picture than purely quantitative or qualitative methods alone."
 };
 
-export const generateQuestionPrompt = (previousQuestions: any[]) => {
+export const generateQuestionPrompt = (previousQuestions: Question[]) => {
   // Track which domains have been covered
-  const domainCounts = CRISC_DOMAINS.reduce((acc, domain) => ({
+  const domainCounts: Record<string, number> = CRISC_DOMAINS.reduce((acc, domain) => ({
     ...acc,
     [domain.name]: 0
   }), {});
 
   previousQuestions.forEach(q => {
-    if (q.domain) domainCounts[q.domain]++;
+    if (q.domain) {
+      domainCounts[q.domain] = (domainCounts[q.domain] || 0) + 1;
+    }
   });
 
   // Find least covered domain
   const leastCoveredDomain = Object.entries(domainCounts)
-    .sort(([,a], [,b]) => a - b)[0][0];
+    .sort(([,a], [,b]) => (a as number) - (b as number))[0][0];
 
   const domain = CRISC_DOMAINS.find(d => d.name === leastCoveredDomain);
   const difficulty = DIFFICULTY_LEVELS[Math.floor(Math.random() * DIFFICULTY_LEVELS.length)];
