@@ -119,7 +119,10 @@ const Index = () => {
             content: prompt
           }],
           temperature: 0.7,
-          max_tokens: 1000
+          max_tokens: 1500,  // Increased to ensure we get complete responses including source
+          top_p: 0.95,
+          frequency_penalty: 0.5,
+          presence_penalty: 0.5
         })
       });
 
@@ -135,12 +138,19 @@ const Index = () => {
       }
 
       try {
-        return JSON.parse(data.choices[0].message.content);
+        const parsedQuestion = JSON.parse(data.choices[0].message.content);
+        
+        // Validate that source is present
+        if (!parsedQuestion.source) {
+          throw new Error('Question response missing source information');
+        }
+        
+        return parsedQuestion;
       } catch (parseError) {
         console.error('JSON Parse Error:', parseError);
         toast({
           title: "Error",
-          description: "Failed to parse question data from API response",
+          description: "Failed to parse question data from API response. Please try again.",
           variant: "destructive",
         });
         return null;

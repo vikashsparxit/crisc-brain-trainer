@@ -34,7 +34,8 @@ const EXAMPLE_QUESTION = {
     "Automated risk scoring without human intervention"
   ],
   correctAnswer: 2,
-  explanation: "A hybrid approach combining quantitative and qualitative methods is most appropriate for cloud service implementation risk assessment. This allows for both measurable metrics (costs, downtime estimates) and expert judgment on less tangible factors (reputation impact, compliance implications). This comprehensive approach provides a more complete risk picture than purely quantitative or qualitative methods alone."
+  explanation: "A hybrid approach combining quantitative and qualitative methods is most appropriate for cloud service implementation risk assessment. This allows for both measurable metrics (costs, downtime estimates) and expert judgment on less tangible factors (reputation impact, compliance implications). This comprehensive approach provides a more complete risk picture than purely quantitative or qualitative methods alone.",
+  source: "ISACA CRISC Review Manual 7th Edition, Chapter 2: IT Risk Assessment"
 };
 
 export const generateQuestionPrompt = (previousQuestions: Question[]) => {
@@ -66,6 +67,7 @@ Requirements:
 - Include 4 plausible options
 - Provide a detailed explanation (100-150 words) that references CRISC best practices
 - Explanation should clarify why the correct answer is best and why others are insufficient
+- Include a specific source reference (e.g., ISACA CRISC Review Manual chapter/section, ISACA guidelines, or other authoritative CRISC documentation)
 
 Example format:
 ${JSON.stringify(EXAMPLE_QUESTION, null, 2)}
@@ -77,6 +79,7 @@ Return ONLY valid JSON in exactly this format:
   "options": string[],
   "correctAnswer": number (0-3),
   "explanation": string,
+  "source": string,
   "domain": string,
   "difficulty": string
 }`;
