@@ -5,6 +5,7 @@ interface ProgressProps {
   current: number;
   total: number;
   score: number;
+  streak?: number;  // Added streak as optional property
 }
 
 const Progress = ({ current, total, score }: ProgressProps) => {

@@ -8,7 +8,7 @@ import { generateQuestionPrompt } from '../utils/questionGenerator';
 import { initDB, saveQuestions, getQuestions, saveProgress, getProgress } from '../utils/indexedDB';
 import { Question } from '../types/quiz';
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, Bot, Confetti } from "lucide-react";
+import { ArrowLeft, ArrowRight, Bot } from "lucide-react";  // Removed Confetti import
 
 const Index = () => {
   const [questions, setQuestions] = useState<Question[]>(initialQuestions);
@@ -159,6 +159,7 @@ const Index = () => {
         current={currentQuestionIndex} 
         total={questions.length}
         score={score}
+        streak={streak}
       />
       
       <div className="flex justify-between mb-4">
@@ -187,7 +188,7 @@ const Index = () => {
         streak={streak}
       />
 
-      <Settings apiKey={apiKey} setApiKey={setApiKey} />
+      <Settings onApiKeySet={setApiKey} />
     </div>
   );
 };
