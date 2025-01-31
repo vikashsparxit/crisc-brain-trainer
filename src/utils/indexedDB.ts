@@ -5,6 +5,7 @@ interface Progress {
   currentQuestionIndex: number;
   score: number;
   answers: boolean[];
+  streak: number;  // Added streak to the interface
 }
 
 export const initDB = async () => {
