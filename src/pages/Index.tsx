@@ -1,4 +1,3 @@
-<lov-code>
 import React, { useState, useEffect } from 'react';
 import { questions as initialQuestions } from '../data/questions';
 import QuizCard from '../components/QuizCard';
@@ -103,4 +102,94 @@ const Index = () => {
   useEffect(() => {
     const saveCurrentProgress = async () => {
       try {
-        await saveProgress
+        await saveProgress({
+          currentQuestionIndex,
+          score,
+          answers,
+          streak
+        });
+      } catch (error) {
+        console.error('Error saving progress:', error);
+      }
+    };
+
+    saveCurrentProgress();
+  }, [currentQuestionIndex, score, answers, streak]);
+
+  const handleAnswer = (answerIndex: number) => {
+    const currentQuestion = questions[currentQuestionIndex];
+    const isCorrect = answerIndex === currentQuestion.correctAnswer;
+    
+    setIsAnswered(true);
+    setSelectedAnswer(answerIndex);
+    
+    if (isCorrect) {
+      setScore(score + 1);
+      setStreak(streak + 1);
+      if ((streak + 1) % 5 === 0) {
+        toast({
+          title: "Amazing streak, Mehu! 🌟",
+          description: `You've got ${streak + 1} correct answers in a row! Keep going! ❤️`,
+        });
+      }
+    } else {
+      setStreak(0);
+    }
+    
+    setAnswers([...answers, isCorrect]);
+  };
+
+  const handleNextQuestion = () => {
+    setIsAnswered(false);
+    setSelectedAnswer(undefined);
+    setCurrentQuestionIndex(currentQuestionIndex + 1);
+  };
+
+  const handlePreviousQuestion = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+      setIsAnswered(true);
+      setSelectedAnswer(undefined);
+    }
+  };
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <Progress 
+        current={currentQuestionIndex} 
+        total={questions.length}
+        score={score}
+      />
+      
+      <div className="flex justify-between mb-4">
+        <Button
+          variant="outline"
+          onClick={handlePreviousQuestion}
+          disabled={currentQuestionIndex === 0}
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Previous
+        </Button>
+        
+        {isAnswered && (
+          <Button onClick={handleNextQuestion}>
+            Next
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        )}
+      </div>
+
+      <QuizCard
+        question={questions[currentQuestionIndex]}
+        onAnswer={handleAnswer}
+        isAnswered={isAnswered}
+        selectedAnswer={selectedAnswer}
+        streak={streak}
+      />
+
+      <Settings apiKey={apiKey} setApiKey={setApiKey} />
+    </div>
+  );
+};
+
+export default Index;
