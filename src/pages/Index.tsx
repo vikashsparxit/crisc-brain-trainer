@@ -3,6 +3,7 @@ import { questions as initialQuestions } from '../data/questions';
 import QuizCard from '../components/QuizCard';
 import Progress from '../components/Progress';
 import Settings from '../components/Settings';
+import NameModal from '../components/NameModal';
 import { useToast } from "@/hooks/use-toast";
 import { generateQuestionPrompt } from '../utils/questionGenerator';
 import { initDB, saveQuestions, getQuestions, saveProgress, getProgress } from '../utils/indexedDB';
@@ -31,6 +32,8 @@ const Index = () => {
   const [isGeneratingQuestion, setIsGeneratingQuestion] = useState(false);
   const { toast } = useToast();
   const [streak, setStreak] = useState(0);
+  const [userName, setUserName] = useState<string | null>(localStorage.getItem('user_name'));
+  const [showNameModal, setShowNameModal] = useState(false);
 
   useEffect(() => {
     const loadInitialQuestion = async () => {
@@ -63,6 +66,23 @@ const Index = () => {
 
     loadInitialQuestion();
   }, []);
+
+  // Check if user has a name, show modal if not
+  useEffect(() => {
+    if (!userName) {
+      setShowNameModal(true);
+    }
+  }, [userName]);
+
+  const handleNameSubmit = (name: string) => {
+    setUserName(name);
+    localStorage.setItem('user_name', name);
+    setShowNameModal(false);
+    toast({
+      title: "Welcome! 👋",
+      description: `Great to have you here, ${name}! Let's start learning!`,
+    });
+  };
 
   const generateBatchQuestions = async () => {
     if (!apiKey) return;
@@ -239,6 +259,7 @@ const Index = () => {
           isAnswered={isAnswered}
           selectedAnswer={selectedAnswer}
           streak={streak}
+          userName={userName}
         />
 
         <div className="flex justify-between items-center max-w-2xl mx-auto mt-4">
@@ -289,11 +310,20 @@ const Index = () => {
               </SheetDescription>
             </SheetHeader>
             <div className="mt-4">
-              <Settings onApiKeySet={setApiKey} />
+              <Settings 
+                onApiKeySet={setApiKey} 
+                userName={userName}
+                onNameChange={handleNameSubmit}
+              />
             </div>
           </SheetContent>
         </Sheet>
       </div>
+
+      <NameModal 
+        isOpen={showNameModal}
+        onNameSubmit={handleNameSubmit}
+      />
     </div>
   );
 };
