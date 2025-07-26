@@ -1,4 +1,14 @@
-# Welcome to your Lovable project
+# CRISC Mock Exam Tool
+
+A personalized learning tool for ISACA CRISC certification preparation with AI-generated questions and motivational feedback.
+
+## Features
+
+- **Personalized Experience**: Enter your name to get personalized motivational messages
+- **AI-Generated Questions**: Dynamic question generation using DeepSeek API
+- **Progress Tracking**: Track your score and maintain streaks
+- **Motivational Feedback**: Encouraging messages that use your name
+- **Settings Management**: Update your name and API key in the settings panel
 
 ## Project info
 

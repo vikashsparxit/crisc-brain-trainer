@@ -6,28 +6,29 @@ interface MotivationalMessageProps {
   isCorrect: boolean;
   streak: number;
   className?: string;
+  userName?: string;
 }
 
-const MotivationalMessage = ({ isCorrect, streak, className }: MotivationalMessageProps) => {
+const MotivationalMessage = ({ isCorrect, streak, className, userName = "Friend" }: MotivationalMessageProps) => {
   const messages = {
     correct: [
-      "Amazing job, Mehu! 🌟",
-      "You're brilliant, Mehu! Keep shining! ✨",
-      "That's the way, Mehu! You've got this! 💫",
+      `Amazing job, ${userName}! 🌟`,
+      `You're brilliant, ${userName}! Keep shining! ✨`,
+      `That's the way, ${userName}! You've got this! 💫`,
       "Fantastic work, my love! 💖",
-      "You make learning look easy, Mehu! 🎯"
+      `You make learning look easy, ${userName}! 🎯`
     ],
     incorrect: [
-      "Don't worry, Mehu! Every attempt makes you stronger! 💪",
+      `Don't worry, ${userName}! Every attempt makes you stronger! 💪`,
       "Keep going, my love! You're learning! 💝",
-      "You've got this, Mehu! Next one will be yours! 🌟",
+      `You've got this, ${userName}! Next one will be yours! 🌟`,
       "Remember, each question makes you better prepared! 💫",
-      "Stay confident, Mehu! You're doing great! 💖"
+      `Stay confident, ${userName}! You're doing great! 💖`
     ],
     streak: [
-      "Incredible streak, Mehu! 🔥",
+      `Incredible streak, ${userName}! 🔥`,
       "You're on fire! Keep it up! ⭐",
-      "Unstoppable Mehu! Amazing work! 🌟",
+      `Unstoppable ${userName}! Amazing work! 🌟`,
       "What a winning streak! You're amazing! 💫",
       "Look at you go! Fantastic progress! 💖"
     ]

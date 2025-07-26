@@ -5,10 +5,13 @@ import { useToast } from "@/components/ui/use-toast";
 
 interface SettingsProps {
   onApiKeySet: (key: string) => void;
+  userName?: string;
+  onNameChange?: (name: string) => void;
 }
 
-const Settings = ({ onApiKeySet }: SettingsProps) => {
+const Settings = ({ onApiKeySet, userName, onNameChange }: SettingsProps) => {
   const [apiKey, setApiKey] = useState('');
+  const [name, setName] = useState(userName || '');
   const { toast } = useToast();
 
   useEffect(() => {
@@ -20,7 +23,14 @@ const Settings = ({ onApiKeySet }: SettingsProps) => {
     }
   }, [onApiKeySet]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    // Update name when userName prop changes
+    if (userName) {
+      setName(userName);
+    }
+  }, [userName]);
+
+  const handleApiKeySubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!apiKey.trim()) {
       toast({
@@ -40,25 +50,69 @@ const Settings = ({ onApiKeySet }: SettingsProps) => {
     });
   };
 
+  const handleNameSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter a valid name",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (onNameChange) {
+      onNameChange(name.trim());
+      toast({
+        title: "Success",
+        description: "Name has been updated successfully",
+        className: "bg-green-500 text-white",
+      });
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label htmlFor="apiKey" className="block text-sm font-medium text-gray-700 mb-1">
-          DeepSeek API Key
-        </label>
-        <Input
-          id="apiKey"
-          type="password"
-          value={apiKey}
-          onChange={(e) => setApiKey(e.target.value)}
-          placeholder="Enter your DeepSeek API key"
-          className="w-full"
-        />
+    <div className="space-y-6">
+      <form onSubmit={handleApiKeySubmit} className="space-y-4">
+        <div>
+          <label htmlFor="apiKey" className="block text-sm font-medium text-gray-700 mb-1">
+            DeepSeek API Key
+          </label>
+          <Input
+            id="apiKey"
+            type="password"
+            value={apiKey}
+            onChange={(e) => setApiKey(e.target.value)}
+            placeholder="Enter your DeepSeek API key"
+            className="w-full"
+          />
+        </div>
+        <Button type="submit" className="w-full">
+          Save API Key
+        </Button>
+      </form>
+
+      <div className="border-t pt-6">
+        <form onSubmit={handleNameSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+              Your Name
+            </label>
+            <Input
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter your name"
+              className="w-full"
+            />
+          </div>
+          <Button type="submit" className="w-full">
+            Update Name
+          </Button>
+        </form>
       </div>
-      <Button type="submit" className="w-full">
-        Save API Key
-      </Button>
-    </form>
+    </div>
   );
 };
 

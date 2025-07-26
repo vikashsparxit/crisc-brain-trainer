@@ -10,9 +10,10 @@ interface QuizCardProps {
   isAnswered: boolean;
   selectedAnswer?: number;
   streak: number;
+  userName?: string;
 }
 
-const QuizCard = ({ question, onAnswer, isAnswered, selectedAnswer, streak }: QuizCardProps) => {
+const QuizCard = ({ question, onAnswer, isAnswered, selectedAnswer, streak, userName }: QuizCardProps) => {
   const isCorrect = isAnswered && selectedAnswer === question.correctAnswer;
 
   return (
@@ -46,6 +47,7 @@ const QuizCard = ({ question, onAnswer, isAnswered, selectedAnswer, streak }: Qu
               isCorrect={isCorrect}
               streak={streak}
               className="mb-4"
+              userName={userName}
             />
             <div className="p-4 bg-muted rounded-lg">
               <h3 className="font-semibold mb-2">Explanation:</h3>
