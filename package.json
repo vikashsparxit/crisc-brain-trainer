@@ -1,7 +1,19 @@
 {
-  "name": "vite_react_shadcn_ts",
-  "private": true,
-  "version": "0.0.0",
+  "name": "crisc-mock-exam-tool",
+  "private": false,
+  "version": "1.0.0",
+  "description": "A personalized learning tool for ISACA CRISC certification preparation with AI-generated questions and motivational feedback",
+  "keywords": ["crisc", "certification", "exam", "preparation", "ai", "react", "typescript"],
+  "author": "CRISC Mock Exam Tool Contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/crisc-mock-exam-tool.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/crisc-mock-exam-tool/issues"
+  },
+  "homepage": "https://github.com/yourusername/crisc-mock-exam-tool#readme",
   "type": "module",
   "scripts": {
     "dev": "vite",
