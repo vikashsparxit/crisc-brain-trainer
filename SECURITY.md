@@ -11,58 +11,62 @@ Use this section to tell people about which versions of your project are current
 
 ## Reporting a Vulnerability
 
-We take the security of CRISC Mock Exam Tool seriously. If you believe you have found a security vulnerability, please report it to us as described below.
+We take security vulnerabilities seriously. If you discover a security vulnerability, please follow these steps:
 
-**Please do not report security vulnerabilities through public GitHub issues.**
+### 1. **DO NOT** create a public GitHub issue
+Security vulnerabilities should be reported privately to prevent potential exploitation.
 
-Instead, please report them via email to [INSERT SECURITY EMAIL].
+### 2. Email the security team
+Send an email to the maintainers with the following information:
+- **Subject**: `[SECURITY] Vulnerability Report`
+- **Description**: Detailed description of the vulnerability
+- **Steps to reproduce**: Clear steps to reproduce the issue
+- **Impact**: Potential impact of the vulnerability
+- **Suggested fix**: If you have a suggested fix (optional)
 
-You should receive a response within 48 hours. If for some reason you do not, please follow up via email to ensure we received your original message.
+### 3. What happens next?
+- You'll receive an acknowledgment within 48 hours
+- We'll investigate the report and keep you updated
+- Once confirmed, we'll work on a fix
+- We'll coordinate the disclosure and release
 
-Please include the requested information listed below (as much as you can provide) to help us better understand the nature and scope of the possible issue:
-
-* Type of issue (buffer overflow, SQL injection, cross-site scripting, etc.)
-* Full paths of source file(s) related to the vulnerability
-* The location of the affected source code (tag/branch/commit or direct URL)
-* Any special configuration required to reproduce the issue
-* Step-by-step instructions to reproduce the issue
-* Proof-of-concept or exploit code (if possible)
-* Impact of the issue, including how an attacker might exploit it
-
-This information will help us triage your report more quickly.
-
-## Preferred Languages
-
-We prefer all communications to be in English.
-
-## Policy
-
-CRISC Mock Exam Tool follows the principle of [Responsible Disclosure](https://en.wikipedia.org/wiki/Responsible_disclosure).
+### 4. Responsible Disclosure
+We follow responsible disclosure practices:
+- We'll credit you in the security advisory (unless you prefer to remain anonymous)
+- We'll work with you to ensure the fix is adequate
+- We'll coordinate the public disclosure
 
 ## Security Best Practices
 
-When using this application:
+### For Contributors
+- Never commit API keys or sensitive data
+- Use environment variables for configuration
+- Follow secure coding practices
+- Review code for potential security issues
 
-1. **API Key Security**: Never commit API keys to version control. Use environment variables or secure configuration management.
-2. **HTTPS**: Always use HTTPS in production environments.
-3. **Input Validation**: The application includes input validation, but always validate data on both client and server sides.
-4. **Regular Updates**: Keep dependencies updated to patch known vulnerabilities.
-5. **Environment Variables**: Store sensitive configuration in environment variables, not in code.
-
-## Dependencies
-
-We regularly update our dependencies to patch security vulnerabilities. You can check for outdated packages using:
-
-```bash
-npm audit
-# or
-bun audit
-```
+### For Users
+- Keep your API keys secure and private
+- Use HTTPS when accessing the application
+- Regularly update your dependencies
+- Report any suspicious activity
 
 ## Security Features
 
-- Input validation and sanitization
-- XSS protection through React's built-in escaping
-- CSRF protection through proper token handling
-- Secure API key storage in browser localStorage (for development only)
-- Content Security Policy headers (when deployed with proper configuration)
+This application implements several security measures:
+- **Input Validation**: All user inputs are validated using Zod schemas
+- **XSS Protection**: React's built-in XSS protection
+- **CSRF Protection**: Implemented where applicable
+- **Secure Headers**: Proper security headers configuration
+- **API Key Security**: Secure handling of API keys
+
+## Updates and Patches
+
+Security updates will be released as:
+- **Critical**: Immediate patch release
+- **High**: Within 1 week
+- **Medium**: Within 1 month
+- **Low**: Next regular release
+
+## Contact
+
+For security-related issues, please contact the maintainers directly rather than creating public issues.

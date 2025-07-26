@@ -1,9 +1,20 @@
-# CRISC Mock Exam Tool
+# CRISC Brain Trainer 🧠
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+[![React](https://img.shields.io/badge/React-18.3.1-blue.svg)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.5.3-blue.svg)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.4.1-purple.svg)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.11-38B2AC.svg)](https://tailwindcss.com/)
+[![shadcn/ui](https://img.shields.io/badge/shadcn/ui-0.0.0-000000.svg)](https://ui.shadcn.com/)
 
-A personalized learning tool for ISACA CRISC certification preparation with AI-generated questions and motivational feedback.
+A personalized learning tool for ISACA CRISC certification preparation with AI-generated questions and motivational feedback. Built with modern React, TypeScript, and shadcn/ui for an exceptional user experience.
+
+## 🎯 Demo
+
+Experience the CRISC Brain Trainer live: [Demo Link Coming Soon]
+
+> **Note**: This is a work in progress. The demo will be available once deployed.
 
 ## 📖 Table of Contents
 
@@ -16,13 +27,16 @@ A personalized learning tool for ISACA CRISC certification preparation with AI-g
 - [Technologies Used](#technologies-used)
 - [Deployment](#deployment)
 
-## Features
+## ✨ Features
 
-- **Personalized Experience**: Enter your name to get personalized motivational messages
-- **AI-Generated Questions**: Dynamic question generation using DeepSeek API
-- **Progress Tracking**: Track your score and maintain streaks
-- **Motivational Feedback**: Encouraging messages that use your name
-- **Settings Management**: Update your name and API key in the settings panel
+- 🎯 **Personalized Experience**: Enter your name to get personalized motivational messages
+- 🤖 **AI-Generated Questions**: Dynamic question generation using DeepSeek API
+- 📊 **Progress Tracking**: Track your score and maintain study streaks
+- 💪 **Motivational Feedback**: Encouraging messages that use your name
+- ⚙️ **Settings Management**: Update your name and API key in the settings panel
+- 📱 **Responsive Design**: Works seamlessly on desktop and mobile devices
+- 🎨 **Modern UI**: Beautiful interface built with shadcn/ui and Tailwind CSS
+- 🔒 **Privacy Focused**: Your data stays local, no unnecessary tracking
 
 ## 🚀 Getting Started
 
@@ -31,29 +45,42 @@ A personalized learning tool for ISACA CRISC certification preparation with AI-g
 - Node.js (version 18 or higher)
 - npm or bun package manager
 
-## 📦 Installation
-
-Follow these steps to get the project running locally:
+## 🚀 Quick Start
 
 ```bash
-# Step 1: Clone the repository
-git clone https://github.com/yourusername/crisc-mock-exam-tool.git
+# Clone the repository
+git clone https://github.com/vikashsparxit/crisc-brain-trainer.git
 
-# Step 2: Navigate to the project directory
-cd crisc-mock-exam-tool
+# Navigate to the project directory
+cd crisc-brain-trainer
 
-# Step 3: Install the necessary dependencies
+# Install dependencies
 npm install
-# or if using bun
+# or
 bun install
 
-# Step 4: Start the development server
+# Start the development server
 npm run dev
 # or
 bun dev
 ```
 
 The application will be available at `http://localhost:5173`
+
+## 📦 Installation
+
+### Prerequisites
+
+- Node.js (version 18 or higher)
+- npm or bun package manager
+- DeepSeek API key (for AI question generation)
+
+### Setup Steps
+
+1. **Clone the repository** (as shown in Quick Start above)
+2. **Install dependencies** using your preferred package manager
+3. **Configure API Key**: Add your DeepSeek API key in the settings panel
+4. **Start development server** and begin practicing!
 
 ## 💻 Usage
 
@@ -120,24 +147,75 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🛠️ Technologies Used
+## 🛠️ Tech Stack
 
 This project is built with modern web technologies:
 
-- **Frontend Framework**: React 18 with TypeScript
-- **Build Tool**: Vite
-- **UI Components**: shadcn/ui with Radix UI primitives
-- **Styling**: Tailwind CSS
-- **Form Handling**: React Hook Form with Zod validation
-- **State Management**: TanStack Query for server state
-- **Routing**: React Router DOM
-- **Charts**: Recharts for data visualization
-- **Icons**: Lucide React
+### Frontend
+- **React 18** with TypeScript for type safety
+- **Vite** for fast development and building
+- **shadcn/ui** with Radix UI primitives for beautiful components
+- **Tailwind CSS** for utility-first styling
 
-## How can I deploy this project?
+### State Management & Data
+- **TanStack Query** for server state management
+- **React Hook Form** with Zod validation for forms
+- **React Router DOM** for client-side routing
+
+### UI/UX
+- **Recharts** for data visualization
+- **Lucide React** for beautiful icons
+- **Sonner** for toast notifications
+- **Next Themes** for dark/light mode support
+
+### Development Tools
+- **ESLint** for code linting
+- **TypeScript** for type checking
+- **PostCSS** for CSS processing
+
+## 🗺️ Roadmap
+
+### Upcoming Features
+- [ ] **Offline Mode**: Practice without internet connection
+- [ ] **Question Categories**: Organize questions by CRISC domains
+- [ ] **Study Analytics**: Detailed progress reports and insights
+- [ ] **Social Features**: Share progress with study groups
+- [ ] **Mobile App**: Native mobile application
+- [ ] **Dark Mode**: Complete dark theme support
+- [ ] **Export Progress**: Download your study data
+- [ ] **Custom Questions**: Add your own questions to the database
+
+### Completed Features ✅
+- [x] Personalized user experience
+- [x] AI-generated questions
+- [x] Progress tracking
+- [x] Modern UI with shadcn/ui
+- [x] Responsive design
+- [x] Settings management
+
+## 🚀 Deployment
 
 You can deploy this project using various platforms like Netlify, Vercel, or GitHub Pages.
 
-## I want to use a custom domain - is that possible?
+## 🆘 Support
 
-Yes, you can use a custom domain with most deployment platforms. For example, with Netlify you can configure custom domains in your site settings.
+### Getting Help
+- 📖 **Documentation**: Check this README for setup instructions
+- 🐛 **Report Issues**: Use the [Issues](https://github.com/vikashsparxit/crisc-brain-trainer/issues) page
+- 💬 **Discussions**: Start a discussion for questions and ideas
+- 📧 **Contact**: Reach out to the maintainers
+
+### Common Issues
+- **API Key Issues**: Make sure your DeepSeek API key is valid and has sufficient credits
+- **Build Errors**: Ensure you're using Node.js 18+ and have all dependencies installed
+- **Performance**: The app works best with a stable internet connection for AI features
+
+## 🌟 Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=vikashsparxit/crisc-brain-trainer&type=Date)](https://star-history.com/#vikashsparxit/crisc-brain-trainer&Date)
+
+---
+
+<div align="center">
+Made with ❤️ for the CRISC community
+</div>
