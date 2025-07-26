@@ -8,12 +8,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/crisc-mock-exam-tool.git"
+    "url": "https://github.com/vikashsparxit/crisc-brain-trainer.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/crisc-mock-exam-tool/issues"
+    "url": "https://github.com/vikashsparxit/crisc-brain-trainer/issues"
   },
-  "homepage": "https://github.com/yourusername/crisc-mock-exam-tool#readme",
+  "homepage": "https://github.com/vikashsparxit/crisc-brain-trainer#readme",
   "type": "module",
   "scripts": {
     "dev": "vite",
